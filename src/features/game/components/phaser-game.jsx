@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { forwardRef, useEffect, useLayoutEffect, useRef } from "react";
-import { EventBus } from "./event-bus";
-import StartGame from "./main";
+import { EventBus } from "../config/event-bus";
+import StartGame from "../config/main";
 
 export const PhaserGame = forwardRef(function PhaserGame(
     { currentActiveScene },
