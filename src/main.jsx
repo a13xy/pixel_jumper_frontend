@@ -1,9 +1,15 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
+import { BrowserRouter, Route, Routes } from "react-router";
+import { Auth } from "./routes/auth";
+import Play from "./routes/play";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>
+const root = document.getElementById("root");
+
+ReactDOM.createRoot(root).render(
+    <BrowserRouter>
+        <Routes>
+            <Route path="/" element={<Auth />} />
+            <Route path="/play" element={<Play />} />
+        </Routes>
+    </BrowserRouter>
 );
