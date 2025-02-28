@@ -1,5 +1,5 @@
 import { Scene } from "phaser";
-import { EventBus } from "../event-bus";
+import { EventBus } from "../config/event-bus";
 
 export class MainMenu extends Scene {
     logoTween;

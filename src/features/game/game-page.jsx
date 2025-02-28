@@ -1,9 +1,9 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { PhaserGame } from "./components/phaser-game";
 
 import Phaser from "phaser";
-import { PhaserGame } from "../features/game/phaser-game";
 
-function Play() {
+export function GamePage() {
     // The sprite can only be moved in the MainMenu Scene
     const [canMoveSprite, setCanMoveSprite] = useState(true);
 
@@ -82,5 +82,3 @@ function Play() {
         </div>
     );
 }
-
-export default Play;
