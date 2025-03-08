@@ -2,64 +2,86 @@ import { Scene } from "phaser";
 import { EventBus } from "../config/event-bus";
 
 export class MainMenu extends Scene {
-    logoTween;
-
     constructor() {
         super("MainMenu");
     }
 
     create() {
-        this.add.image(512, 384, "background");
+        // Add background
+        this.add.image(this.game.config.width / 2, 384, "background-1").setScale(2);
 
-        this.logo = this.add.image(512, 300, "logo").setDepth(100);
-
+        // Add title
         this.add
-            .text(512, 460, "Main Menu", {
+            .text(this.game.config.width / 2, 200, "Pixel Jumper", {
+                fontFamily: "Arial Black",
+                fontSize: 64,
+                color: "#ffffff",
+                stroke: "#000000",
+                strokeThickness: 8,
+                align: "center",
+            })
+            .setOrigin(0.5)
+            .setDepth(100);
+
+        // Add instructions
+        this.add
+            .text(this.game.config.width / 2, 300, "Jump up the platforms and reach as high as you can!", {
+                fontFamily: "Arial",
+                fontSize: 20,
+                color: "#ffffff",
+                stroke: "#000000",
+                strokeThickness: 4,
+                align: "center",
+            })
+            .setOrigin(0.5)
+            .setDepth(100);
+
+        // Add controls instructions
+        this.add
+            .text(this.game.config.width / 2, 350, "Controls: Arrow keys to move, Auto-jump", {
+                fontFamily: "Arial",
+                fontSize: 18,
+                color: "#ffffff",
+                stroke: "#000000",
+                strokeThickness: 4,
+                align: "center",
+            })
+            .setOrigin(0.5)
+            .setDepth(100);
+
+        // Add start button
+        const startButton = this.add
+            .text(this.game.config.width / 2, 450, "Start Game", {
                 fontFamily: "Arial Black",
                 fontSize: 38,
                 color: "#ffffff",
                 stroke: "#000000",
                 strokeThickness: 8,
                 align: "center",
+                padding: { x: 20, y: 10 },
             })
+            .setOrigin(0.5)
             .setDepth(100)
-            .setOrigin(0.5);
+            .setInteractive({ useHandCursor: true });
+
+        // Add hover effect
+        startButton.on("pointerover", () => {
+            startButton.setStyle({ fill: "#ffff00" });
+        });
+
+        startButton.on("pointerout", () => {
+            startButton.setStyle({ fill: "#ffffff" });
+        });
+
+        // Start game on click
+        startButton.on("pointerdown", () => {
+            this.changeScene();
+        });
 
         EventBus.emit("current-scene-ready", this);
     }
 
     changeScene() {
-        if (this.logoTween) {
-            this.logoTween.stop();
-            this.logoTween = null;
-        }
-
         this.scene.start("Game");
-    }
-
-    moveLogo(reactCallback) {
-        if (this.logoTween) {
-            if (this.logoTween.isPlaying()) {
-                this.logoTween.pause();
-            } else {
-                this.logoTween.play();
-            }
-        } else {
-            this.logoTween = this.tweens.add({
-                targets: this.logo,
-                x: { value: 750, duration: 3000, ease: "Back.easeInOut" },
-                y: { value: 80, duration: 1500, ease: "Sine.easeOut" },
-                yoyo: true,
-                repeat: -1,
-                onUpdate: () => {
-                    if (reactCallback) {
-                        reactCallback({
-                            x: Math.floor(this.logo.x),
-                            y: Math.floor(this.logo.y),
-                        });
-                    }
-                },
-            });
-        }
     }
 }
